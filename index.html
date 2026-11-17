@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Majesty School – Activities & Outfits</title>
+<style>
+  :root{
+    --navy:#14284b; --gold:#c9a227; --bg:#f6f4ee; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+  header{background:var(--navy);color:#fff;padding:28px 16px;text-align:center;border-bottom:4px solid var(--gold)}
+  header h1{font-size:1.8rem;letter-spacing:.5px}
+  header p{color:#d9dfec;margin-top:6px}
+  nav{display:flex;justify-content:center;gap:8px;padding:14px;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.08);flex-wrap:wrap}
+  nav button{border:2px solid var(--navy);background:#fff;color:var(--navy);padding:8px 18px;border-radius:999px;font-weight:600;cursor:pointer}
+  nav button.active{background:var(--navy);color:#fff}
+  main{max-width:1050px;margin:0 auto;padding:20px 16px 50px}
+  section{display:none}
+  section.active{display:block}
+  .tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .tools input,.tools select{padding:10px 12px;border:1px solid #cfd4dc;border-radius:8px;font-size:1rem;background:#fff}
+  .tools input{flex:1;min-width:200px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-top:4px solid var(--gold)}
+  .card .icon{font-size:2rem}
+  .card h3{margin:8px 0 4px;color:var(--navy)}
+  .tag{display:inline-block;font-size:.75rem;background:#eef1f7;color:var(--navy);padding:2px 10px;border-radius:999px;margin-right:4px;margin-top:6px}
+  .card p{color:var(--muted);font-size:.93rem;margin-top:6px}
+  .empty{text-align:center;color:var(--muted);padding:30px}
+  .swatch{display:flex;gap:6px;margin-top:10px}
+  .swatch span{width:22px;height:22px;border-radius:50%;border:1px solid #ccc}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+  th,td{padding:12px;text-align:left;border-bottom:1px solid #eee}
+  th{background:var(--navy);color:#fff}
+  h2{color:var(--navy);margin:24px 0 12px}
+  .note{background:#fff8e1;border-left:4px solid var(--gold);padding:12px 14px;border-radius:6px;margin-bottom:18px;font-size:.92rem}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>👑 Majesty School</h1>
+  <p>Student Activities &amp; Uniform Guide</p>
+</header>
+
+<nav>
+  <button class="active" data-tab="activities">Activities</button>
+  <button data-tab="outfits">Outfits</button>
+  <button data-tab="schedule">Weekly Schedule</button>
+</nav>
+
+<main>
+
+  <!-- ACTIVITIES -->
+  <section id="activities" class="active">
+    <div class="note">Sample content: edit the <code>activities</code> list in the script at the bottom with your school's real details.</div>
+    <div class="tools">
+      <input id="aSearch" type="search" placeholder="Search activities…">
+      <select id="aFilter">
+        <option value="all">All categories</option>
+        <option>Sports</option>
+        <option>Arts</option>
+        <option>Academic</option>
+        <option>Community</option>
+      </select>
+    </div>
+    <div class="grid" id="aGrid"></div>
+  </section>
+
+  <!-- OUTFITS -->
+  <section id="outfits">
+    <div class="note">Sample content: edit the <code>outfits</code> list in the script to match the official uniform policy.</div>
+    <div class="tools">
+      <select id="oFilter">
+        <option value="all">All students</option>
+        <option>Boys</option>
+        <option>Girls</option>
+        <option>Everyone</option>
+      </select>
+      <select id="oSeason">
+        <option value="all">All seasons</option>
+        <option>Summer</option>
+        <option>Winter</option>
+        <option>All year</option>
+      </select>
+    </div>
+    <div class="grid" id="oGrid"></div>
+
+    <h2>Uniform Rules</h2>
+    <div class="card">
+      <ul style="padding-left:20px;color:var(--muted)">
+        <li>Uniform must be clean, ironed and the correct size.</li>
+        <li>School ID badge must be worn daily.</li>
+        <li>Sports uniform is worn only on PE days.</li>
+        <li>Shoes: plain black (formal days) or white sneakers (sports days).</li>
+        <li>Accessories and hair styles should be simple and neat.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <div class="note">Sample schedule: replace with the real timetable.</div>
+    <table>
+      <thead><tr><th>Day</th><th>Activity</th><th>Time</th><th>Outfit</th></tr></thead>
+      <tbody id="sBody"></tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>© <span id="yr"></span> Majesty School · Information may change, please confirm with school administration.</footer>
+
+<script>
+/* ===== EDIT YOUR DATA HERE ===== */
+const activities = [
+  {icon:"⚽", name:"Football", cat:"Sports", desc:"Inter-class matches and school team training.", when:"Sun & Tue"},
+  {icon:"🏊", name:"Swimming", cat:"Sports", desc:"Weekly swimming sessions for all grades.", when:"Wed"},
+  {icon:"🎨", name:"Art Club", cat:"Arts", desc:"Drawing, painting and craft workshops.", when:"Mon"},
+  {icon:"🎭", name:"Drama & Theatre", cat:"Arts", desc:"Plays and performances for school events.", when:"Thu"},
+  {icon:"🎵", name:"Music & Choir", cat:"Arts", desc:"Choir, instruments and morning assembly performances.", when:"Tue"},
+  {icon:"🔬", name:"Science Club", cat:"Academic", desc:"Experiments, science fair preparation and STEM projects.", when:"Wed"},
+  {icon:"🤖", name:"Robotics & Coding", cat:"Academic", desc:"Learn programming and build simple robots.", when:"Thu"},
+  {icon:"📚", name:"Reading Club", cat:"Academic", desc:"Book discussions and library activities.", when:"Sun"},
+  {icon:"🌱", name:"Eco Team", cat:"Community", desc:"School garden and recycling campaigns.", when:"Mon"},
+  {icon:"🤝", name:"Volunteering", cat:"Community", desc:"Charity drives and community service days.", when:"Monthly"}
+];
+
+const outfits = [
+  {icon:"👔", name:"Boys Formal Uniform", who:"Boys", season:"Summer", desc:"Light blue shirt, navy trousers, school tie and badge.", colors:["#9ec5ee","#14284b","#c9a227"]},
+  {icon:"🧥", name:"Boys Winter Uniform", who:"Boys", season:"Winter", desc:"Formal uniform plus navy school jumper or blazer.", colors:["#14284b","#9ec5ee","#ffffff"]},
+  {icon:"👗", name:"Girls Formal Uniform", who:"Girls", season:"Summer", desc:"Light blue blouse, navy skirt or trousers, school badge.", colors:["#9ec5ee","#14284b","#c9a227"]},
+  {icon:"🧣", name:"Girls Winter Uniform", who:"Girls", season:"Winter", desc:"Formal uniform plus navy cardigan or blazer.", colors:["#14284b","#9ec5ee","#ffffff"]},
+  {icon:"👕", name:"Sports Uniform", who:"Everyone", season:"All year", desc:"White polo with school logo, navy sports shorts or track pants, white sneakers.", colors:["#ffffff","#14284b","#c9a227"]},
+  {icon:"🎉", name:"Event / Celebration Day", who:"Everyone", season:"All year", desc:"Formal uniform or dress code announced by the school for each event.", colors:["#c9a227","#14284b","#ffffff"]}
+];
+
+const schedule = [
+  ["Sunday","Reading Club / Football","2:00 – 3:00 PM","Formal / Sports"],
+  ["Monday","Art Club / Eco Team","2:00 – 3:00 PM","Formal"],
+  ["Tuesday","Music & Choir / Football","2:00 – 3:00 PM","Formal / Sports"],
+  ["Wednesday","Swimming / Science Club","2:00 – 3:00 PM","Sports / Formal"],
+  ["Thursday","Drama / Robotics","2:00 – 3:00 PM","Formal"]
+];
+/* ===== END DATA ===== */
+
+// Tabs
+document.querySelectorAll("nav button").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll("section").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    document.getElementById(b.dataset.tab).classList.add("active");
+  };
+});
+
+// Activities
+const aGrid=document.getElementById("aGrid");
+function renderActivities(){
+  const q=document.getElementById("aSearch").value.toLowerCase();
+  const f=document.getElementById("aFilter").value;
+  const list=activities.filter(a=>(f==="all"||a.cat===f)&&(a.name+a.desc).toLowerCase().includes(q));
+  aGrid.innerHTML=list.length?list.map(a=>`
+    <div class="card"><div class="icon">${a.icon}</div><h3>${a.name}</h3>
+    <span class="tag">${a.cat}</span><span class="tag">🗓 ${a.when}</span>
+    <p>${a.desc}</p></div>`).join(""):'<div class="empty">No activities found.</div>';
+}
+document.getElementById("aSearch").oninput=renderActivities;
+document.getElementById("aFilter").onchange=renderActivities;
+
+// Outfits
+const oGrid=document.getElementById("oGrid");
+function renderOutfits(){
+  const f=document.getElementById("oFilter").value;
+  const s=document.getElementById("oSeason").value;
+  const list=outfits.filter(o=>(f==="all"||o.who===f||o.who==="Everyone")&&(s==="all"||o.season===s||o.season==="All year"));
+  oGrid.innerHTML=list.length?list.map(o=>`
+    <div class="card"><div class="icon">${o.icon}</div><h3>${o.name}</h3>
+    <span class="tag">${o.who}</span><span class="tag">${o.season}</span>
+    <p>${o.desc}</p>
+    <div class="swatch">${o.colors.map(c=>`<span style="background:${c}"></span>`).join("")}</div></div>`).join(""):'<div class="empty">No outfits found.</div>';
+}
+document.getElementById("oFilter").onchange=renderOutfits;
+document.getElementById("oSeason").onchange=renderOutfits;
+
+// Schedule
+document.getElementById("sBody").innerHTML=schedule.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("");
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+renderActivities();renderOutfits();
+</script>
+</body>
+</html>
